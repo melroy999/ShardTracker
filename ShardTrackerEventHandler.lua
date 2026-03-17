@@ -73,9 +73,14 @@ function ShardTracker:PLAYER_TARGET_CHANGED()
     self:OnHealthDetection("target", "PLAYER_TARGET_CHANGED")
 end
 
--- Fired when the mouseover object needs to be updated. 
+-- Fired when the mouseover object needs to be updated.
 function ShardTracker:UPDATE_MOUSEOVER_UNIT()
     self:OnHealthDetection("mouseover", "UPDATE_MOUSEOVER_UNIT")
+end
+
+-- Fired whenever a nameplate unit enters render range.
+function ShardTracker:NAME_PLATE_UNIT_ADDED(_, unitToken)
+    self:OnHealthDetection(unitToken, "NAME_PLATE_UNIT_ADDED")
 end
 
 -- Fired whenever a unit's health is affected.
@@ -89,7 +94,7 @@ function ShardTracker:OnHealthDetection(unit, event_id)
     -- Get information about the target.
     local guid = UnitGUID(unit)
     
-    if guid and not UnitPlayerControlled(unit) then
+    if guid and not issecretvalue(guid) and not UnitPlayerControlled(unit) then
         -- unittype, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid
         local unittype, _, _, _, zone_uid, npc_id, spawn_uid = strsplit("-", guid)
         npc_id = tonumber(npc_id)
@@ -171,8 +176,7 @@ end
 -- Register the events that are needed for the proper tracking of rares.
 function ShardTracker:RegisterTrackingEvents()
     self:RegisterEvent("PLAYER_TARGET_CHANGED")
-    self:RegisterEvent("UNIT_HEALTH")
-    self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     self:RegisterEvent("VIGNETTE_MINIMAP_UPDATED")
     self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+    self:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 end
