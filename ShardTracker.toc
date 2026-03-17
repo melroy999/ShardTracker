@@ -2,7 +2,7 @@
 ## Title: ShardTracker
 ## Notes: An addon that tracks the shard id of the current zone.
 ## Author: Melroy
-## Version: 0.0.2
+## Version: 0.0.3
 ## SavedVariables: ShardTrackerDB
 ## IconTexture: Interface\AddOns\ShardTracker\Icons\ShardTrackerIcon
 
